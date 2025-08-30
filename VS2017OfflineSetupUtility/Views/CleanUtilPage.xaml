@@ -43,7 +43,15 @@
         </Grid.RowDefinitions>
 
         <!--#region  Header-->
-        <TextBlock Grid.Row="0" Text="VS2017/2019/2022 Offline Setup Utility" Style="{StaticResource AppHeaderTextBlockStyle}"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Content="Back" Grid.Column="0" Width="80" Height="30" Background="White" Margin="10"
+                    Command="{Binding GoBackCommand}"/>
+            <TextBlock Grid.Column="1" Text="VS2017/2019/2022 Offline Clean Util" Style="{StaticResource AppHeaderTextBlockStyle}"/>
+        </Grid>
         <Rectangle Grid.Row="0" VerticalAlignment="Bottom" Style="{StaticResource HorizontalSeperatorStyle}"/>
         <!--#endregion Header-->
 
@@ -57,14 +65,14 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="(C) 2017-2023 Deepak Rathi. THIS APPLICATION IS PROVIDED AS IS WITH OUT ANY WARRANTY OF ANY KIND. DEVELOPER OF THIS APP IS NOT RESPONSIBLE FOR ANY PROBLEM/ISSUE/DEFECTS CAUSED DUE TO THIS APPLICATION OR ANY CONTENT IN THIS APPLICATION. THIS APP IS NOT AFFILIATED TO MICROSOFT OR ANY OTHER THIRD PARTY. NO USER DATA IS COLLECTED BY DEVELOPER OF THIS APP." 
-                       Padding="20" TextWrapping="Wrap" Foreground="Gray"
-                       Grid.Column="0"/>
+                       Padding="20" TextWrapping="Wrap" TextAlignment="Justify" Foreground="Gray" 
+                       Grid.Column="0" Grid.Row="1"/>
+            <CheckBox Foreground="{StaticResource RedSolidColorBrush}" Margin="10,5,0,0" IsChecked="{Binding IsPermanentDelete}" Grid.Column="1" Content="Permanently delete items"
+                      ToolTip="If checked, deleted items will not be moved to the Recycle Bin and will be permanently removed. This action cannot be undone."/>
             <Button Content="Delete using --clean command" Grid.Column="1" Width="180" Height="30" Background="{StaticResource RedSolidColorBrush}" Margin="10"
                     Command="{Binding DeleteOldVersionCleanCommand}"/>
             <Button Content="Delete" Grid.Column="2" Width="80" Height="30" Background="{StaticResource RedSolidColorBrush}" Margin="10"
                     Command="{Binding DeleteOldVersionCommand}"/>
-            <Button Content="Go Back" Grid.Column="3" Width="80" Height="30" Background="White" Margin="10"
-                    Command="{Binding GoBackCommand}"/>
         </Grid>
         <!--#endregion Footer-->
 
@@ -103,15 +111,19 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <TextBox Text="{Binding SelectedFolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Margin="17,10" MinHeight="30" Width="450" FontSize="14"
-                                 Grid.Row="2" Grid.Column="0"
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding SelectedFolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="17,10" MinHeight="30" FontSize="14"
+                                 Grid.Row="2"
                                  VerticalContentAlignment="Center"/>
 
-                        <Button Content="Select Folder*" Background="{StaticResource GreenSolidColorBrush}" Foreground="White" Margin="10" Padding="10" FontSize="14" MaxWidth="200" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1"
+                        <Button Grid.Column="1"  Content="Select Folder*" Background="{StaticResource GreenSolidColorBrush}" Foreground="White" Margin="10" Padding="10" FontSize="14" MaxWidth="200" HorizontalAlignment="Left" Grid.Row="2"
                             Command="{Binding SelectFolderCommand}"/>
-                    </StackPanel>
+                    </Grid>
                     <Rectangle Grid.Row="1" Fill="LightGray" Height="0.8" />
                     <TextBlock Grid.Row="2" Text="List of old folders with version number" FontSize="14" Padding="17,0" TextWrapping="Wrap" Foreground="{StaticResource BlackSolidColorBrush}"/>
                     <ListView Grid.Row="3" ItemsSource="{Binding OldVersionModule}" ItemTemplate="{StaticResource ModuleDataTemplate}" BorderThickness="0" Margin="17,0"/>

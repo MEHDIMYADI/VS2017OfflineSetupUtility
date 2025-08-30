@@ -32,11 +32,11 @@
     <Page.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="FeatureIconButtonTemplate">
-                <Button Background="Transparent" Width="230" Height="200" Margin="17" Command="{Binding ElementName=FeatureItemControl, Path=DataContext.FeatureClickedCommand}" CommandParameter="{Binding }" IsEnabled="{Binding IsEnabled}">
+                <Button Background="Transparent" Height="200" Margin="17" Command="{Binding ElementName=FeatureItemControl, Path=DataContext.FeatureClickedCommand}" CommandParameter="{Binding }" IsEnabled="{Binding IsEnabled}">
                     <StackPanel>
-                        <ContentControl Content="{Binding Icon}" />
+                        <ContentControl Content="{Binding Icon}" Margin="10" />
                         <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" Padding="14,5" Foreground="{StaticResource BlackSolidColorBrush}" TextWrapping="Wrap"/>
-                        <TextBlock Text="{Binding About}" FontSize="14" Padding="14,0" Foreground="{StaticResource BlackSolidColorBrush}" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding About}" Margin="5" FontSize="14" Padding="14,0" Foreground="{StaticResource BlackSolidColorBrush}" TextWrapping="Wrap" TextAlignment="Justify"/>
                     </StackPanel>
                 </Button>
             </DataTemplate>
@@ -64,7 +64,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="(C) 2017-2021 Deepak Rathi. THIS APPLICATION IS PROVIDED AS IS WITH OUT ANY WARRANTY OF ANY KIND. DEVELOPER OF THIS APP IS NOT RESPONSIBLE FOR ANY PROBLEM/ISSUE/DEFECTS CAUSED DUE TO THIS APPLICATION OR ANY CONTENT IN THIS APPLICATION. THIS APP IS NOT AFFILIATED TO MICROSOFT OR ANY OTHER THIRD PARTY. NO USER DATA IS COLLECTED BY DEVELOPER OF THIS APP." 
-                       Padding="20" TextWrapping="Wrap" Foreground="Gray"
+                       Padding="20" TextWrapping="Wrap" TextAlignment="Justify" Foreground="Gray"
                        Grid.Column="0"/>
             <Button Content="Proceed" Grid.Column="1" Width="80" Height="30" Background="{StaticResource BlueSolidColorBrush}" Foreground="White" Margin="10"
                     Command="{Binding ProceedCommand}"/>
@@ -103,7 +103,7 @@
                 <ItemsControl x:Name="FeatureItemControl" Grid.Row="1" VerticalAlignment="Top" ItemTemplate="{StaticResource FeatureIconButtonTemplate}" ItemsSource="{Binding Features}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
+                            <UniformGrid Columns="2"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>

@@ -25,13 +25,17 @@ namespace VS2017OfflineSetupUtility.ViewModels
     {
         #region Selected Feature
         private Feature _selectedFeature;
-
         public Feature SelectedFeature
         {
-            get { return _selectedFeature ??= Features.FirstOrDefault(); }
-            set { SetProperty(ref _selectedFeature, value); }
+            get => _selectedFeature;
+            set
+            {
+                if (SetProperty(ref _selectedFeature, value))
+                {
+                    _proceedCommand?.RaiseCanExecuteChanged();
+                }
+            }
         }
-
         #endregion Selected Feature
 
         #region Features
@@ -52,11 +56,12 @@ namespace VS2017OfflineSetupUtility.ViewModels
             get
             {
                 return _featureClickedCommand ??= new DelegateCommand<Feature>((feature) => 
-                { 
-                    SelectedFeature.IsSelected = false;
-                    SelectedFeature = feature; 
+                {
+                    if (SelectedFeature != null)
+                        SelectedFeature.IsSelected = false;
+
+                    SelectedFeature = feature;
                     SelectedFeature.IsSelected = true;
-                    ProceedCommand.Execute();
                 });
             }
         }
@@ -64,15 +69,20 @@ namespace VS2017OfflineSetupUtility.ViewModels
 
         #region Proceed Command
         private DelegateCommand _proceedCommand;
-
         public DelegateCommand ProceedCommand
         {
             get
             {
-                return _proceedCommand ??= new DelegateCommand(() => { App.CurrentFrame.Navigate(Features.FirstOrDefault(feature => feature.IsSelected).NavigateToView); });
+                return _proceedCommand ??= new DelegateCommand(
+                    () =>
+                    {
+                        App.CurrentFrame.Navigate(SelectedFeature.NavigateToView);
+                    },
+                    () => SelectedFeature != null
+                );
             }
         }
-        #endregion  Proceed Command
+        #endregion
 
         #region Exit Command
         private DelegateCommand _exitCommand;

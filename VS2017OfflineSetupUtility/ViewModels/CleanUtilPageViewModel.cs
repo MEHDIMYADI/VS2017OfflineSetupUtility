@@ -13,6 +13,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -72,6 +73,18 @@ namespace VS2017OfflineSetupUtility.ViewModels
                     DeleteOldVersionCleanCommand.RaiseCanExecuteChanged();
                 }
             }
+        }
+        #endregion
+
+        #region IsPermanentDelete
+        private bool _isPermanentDelete;
+        /// <summary>
+        /// Permanently delete items
+        /// </summary>
+        public bool IsPermanentDelete
+        {
+            get => _isPermanentDelete;
+            set => SetProperty(ref _isPermanentDelete, value);
         }
         #endregion
 
@@ -195,12 +208,22 @@ namespace VS2017OfflineSetupUtility.ViewModels
                 {
                     try
                     {
+
+                        bool isPermanentDelete = IsPermanentDelete;
+
                         //Delete old version folder and files
                         await Task.Run(() =>
                         {
                             foreach (var folder in OldVersionModule)
                             {
-                                Directory.Delete(folder.FullPath, true);
+                                if (isPermanentDelete)
+                                {
+                                    Directory.Delete(folder.FullPath, true);
+                                }
+                                else
+                                {
+                                    FileSystem.DeleteDirectory(folder.FullPath, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                                }
                             }
                         }).ConfigureAwait(false);
 

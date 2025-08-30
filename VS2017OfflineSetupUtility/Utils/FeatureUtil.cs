@@ -30,7 +30,7 @@ namespace VS2017OfflineSetupUtility.Utils
             var cleanUtilIcon = new CleanUtilIcon() { IsCheckedColor = (SolidColorBrush)App.Current.Resources["BlueSolidColorBrush"]};
             cleanUtilIcon.SetBinding(CleanUtilIcon.IsCheckedProperty, new System.Windows.Data.Binding("IsSelected") { UpdateSourceTrigger = System.Windows.Data.UpdateSourceTrigger.PropertyChanged});
 
-            var cleanUtilFeature = new Feature() { Icon =  cleanUtilIcon, Name = "VS2017/2019/2022 Offline Clean Util", About= "Allow deletion of old version Visual Studio 2017/2019/2022 Offline Setup files and folder, which saves your hard disk space.", Version="1.4.4.0", NavigateToView = new Views.CleanUtilPage() , IsSelected = true};
+            var cleanUtilFeature = new Feature() { Icon =  cleanUtilIcon, Name = "VS2017/2019/2022 Offline Clean Util", About= "Allow deletion of old version Visual Studio 2017/2019/2022 Offline Setup files and folder, which saves your hard disk space.", Version="1.4.4.0", NavigateToView = new Views.CleanUtilPage() , IsSelected = false};
 
             #endregion
 
